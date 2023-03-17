@@ -1,0 +1,14 @@
+version: v1
+plugins:
+  - name: go
+    out: ./gen/product
+    opt: paths=source_relative
+  - name: go-grpc
+    out: ./gen/product
+    opt: paths=source_relative,require_unimplemented_servers=false
+  - name: go
+    out: ../order/gen/product
+    opt: paths=source_relative
+  - name: go-grpc
+    out: ../order/gen/product
+    opt: paths=source_relative,require_unimplemented_servers=false

@@ -1,0 +1,52 @@
+version: '3'
+services:
+  golang_order_app:
+    container_name: order_app
+    build:
+      context: ./order
+      dockerfile: Dockerfile
+    ports:
+      - "50051:50051"
+    restart: on-failure
+    volumes:
+      - ./order:/app/
+    depends_on:
+      - mysql_order
+
+  golang_product_app:
+    container_name: product_app
+    build:
+      context: ./product
+      dockerfile: Dockerfile
+    ports:
+      - "50052:50052"
+    restart: on-failure
+    volumes:
+      - ./product:/app/
+    depends_on:
+      - mysql_product
+
+  mysql_product:
+    image: mysql:8.0.31
+    container_name: mysql_product
+    ports:
+      - "16306:3306"
+    volumes:
+      - ./docker/mysql/product/data:/var/lib/mysql
+      - ./docker/mysql/product/initdb:/docker-entrypoint-initdb.d
+    environment:
+      MYSQL_DATABASE: product_db
+      MYSQL_ROOT_PASSWORD: password
+
+  mysql_order:
+    image: mysql:8.0.31
+    container_name: mysql_order
+    ports:
+      - "18306:3306"
+    volumes:
+      - ./docker/mysql/order/data:/var/lib/mysql
+      - ./docker/mysql/order/initdb:/docker-entrypoint-initdb.d
+    environment:
+      MYSQL_DATABASE: order_db
+      MYSQL_ROOT_PASSWORD: password
+
