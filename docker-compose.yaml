@@ -8,8 +8,6 @@ services:
     ports:
       - "50051:50051"
     restart: on-failure
-    volumes:
-      - ./order:/app/
     depends_on:
       - mysql_order
 
@@ -21,8 +19,6 @@ services:
     ports:
       - "50052:50052"
     restart: on-failure
-    volumes:
-      - ./product:/app/
     depends_on:
       - mysql_product
 
