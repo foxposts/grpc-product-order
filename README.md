@@ -1,6 +1,6 @@
 
 
-# grpc microservices構成
+# grpc + microservices
 
 orderとproductを疎結合とし、grpc経由でデータの受け渡しをする構成。
 
