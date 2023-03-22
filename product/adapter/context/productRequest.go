@@ -20,7 +20,7 @@ func (p *ProductRequest) ValidateCreateProduct() error {
 		return errors.New("the name field is required")
 	}
 
-	if len(p.model.Name) < 5 || len(p.model.Name) > 255 {
+	if len(p.model.Name) < 1 || len(p.model.Name) > 255 {
 		return errors.New("the name field must be between 5-255 char")
 	}
 
