@@ -3,7 +3,7 @@ import {useRouter} from "next/router";
 import {Order} from "../../types/Orders";
 import {OrderApi} from "../index";
 import {GetServerSideProps} from "next";
-import HeaderNav from "../../componets/headerNav";
+import HeaderNav from "../../components/headerNav";
 
 interface Props {
     order: Order;

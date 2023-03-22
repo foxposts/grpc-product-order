@@ -3,7 +3,7 @@ import {useRouter} from "next/router";
 import {Product} from "../../types/Products";
 import {ProductApi} from "../index";
 import {useForm} from "react-hook-form";
-import HeaderNav from "../../componets/headerNav";
+import HeaderNav from "../../components/headerNav";
 
 
 const NewProduct = () => {

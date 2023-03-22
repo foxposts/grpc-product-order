@@ -1,7 +1,7 @@
 import type {NextPage} from 'next'
 
 import axios from "axios";
-import HeaderNav from "../componets/headerNav";
+import HeaderNav from "../components/headerNav";
 
 export const OrderApi = axios.create({
     baseURL: 'http://localhost:3000/api/orders'

@@ -3,7 +3,7 @@ import React from "react";
 import {GetServerSideProps} from "next";
 import {ProductApi} from "../index";
 import {Product} from "../../types/Products";
-import HeaderNav from "../../componets/headerNav";
+import HeaderNav from "../../components/headerNav";
 import Link from "next/link";
 
 

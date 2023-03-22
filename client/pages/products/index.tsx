@@ -3,7 +3,7 @@ import {GetServerSideProps} from "next";
 import {ProductApi} from "../index";
 import {Product} from "../../types/Products";
 import Link from "next/link";
-import HeaderNav from "../../componets/headerNav";
+import HeaderNav from "../../components/headerNav";
 
 
 interface Props {

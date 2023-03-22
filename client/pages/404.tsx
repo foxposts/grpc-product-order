@@ -1,5 +1,5 @@
 import React from 'react';
-import HeaderNav from "../componets/headerNav";
+import HeaderNav from "../components/headerNav";
 
 const NotFound = () => {
     return (

@@ -4,7 +4,7 @@ import {Product} from "../../types/Products";
 import {Order, OrderProduct} from "../../types/Orders";
 import {OrderApi, ProductApi} from "../index";
 import {useRouter} from "next/router";
-import HeaderNav from "../../componets/headerNav";
+import HeaderNav from "../../components/headerNav";
 
 interface Props {
     products: Product[];
