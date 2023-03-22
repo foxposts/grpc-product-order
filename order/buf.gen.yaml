@@ -6,3 +6,13 @@ plugins:
   - name: go-grpc
     out: ./gen/order
     opt: paths=source_relative,require_unimplemented_servers=false
+  - name: js
+    out: ../client/gen/order
+    opt: import_style=commonjs,binary
+  - name: grpc
+    out: ../client/gen/order
+    opt: grpc_js
+    path: grpc_tools_node_protoc_plugin
+  - name: ts
+    out: ../client/gen/order
+    opt: grpc_js
