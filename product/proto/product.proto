@@ -22,11 +22,15 @@ message GetProductResponse {
     Product product = 1;
 }
 
-message GetProductListRequest {
+message GetProductsByIdsRequest {
     repeated int64 ids = 1;
 }
 
-message GetProductListResponse {
+message GetProductsByIdsResponse {
+    repeated Product products = 1;
+}
+
+message GetProductsResponse {
     repeated Product products = 1;
 }
 
@@ -65,7 +69,8 @@ service ProductService {
     rpc GetProduct(GetProductRequest) returns (GetProductResponse);
     rpc UpdateProduct(UpdateProductRequest) returns (UpdateProductResponse);
     rpc DeleteProduct(DeleteProductRequest) returns (google.protobuf.Empty);
-    rpc GetProductList(GetProductListRequest) returns (GetProductListResponse);
+    rpc GetProducts(google.protobuf.Empty) returns (GetProductsResponse);
+    rpc GetProductsByIds(GetProductsByIdsRequest) returns (GetProductsByIdsResponse);
 }
 
 

@@ -82,8 +82,16 @@ func (p *ProductServer) DeleteProduct(ctx context.Context, req *pb.DeleteProduct
 	return out, nil
 }
 
-func (p *ProductServer) GetProductList(ctx context.Context, req *pb.GetProductListRequest) (*pb.GetProductListResponse, error) {
-	productsResponse, err := productUseCase.ReadProductList(req.Ids)
+func (p *ProductServer) GetProducts(ctx context.Context, req *emptypb.Empty) (*pb.GetProductsResponse, error) {
+	productsResponse, err := productUseCase.GetProducts()
+	if err != nil {
+		return nil, err
+	}
+	return productsResponse, nil
+}
+
+func (p *ProductServer) GetProductsByIds(ctx context.Context, req *pb.GetProductsByIdsRequest) (*pb.GetProductsByIdsResponse, error) {
+	productsResponse, err := productUseCase.ReadProductByIds(req.Ids)
 	if err != nil {
 		return nil, err
 	}

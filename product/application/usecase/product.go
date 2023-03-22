@@ -12,7 +12,8 @@ type ProductUseCase interface {
 	InsertProduct(product *model.Product) (*pb.CreateProductResponse, error)
 	UpdateProduct(product *model.Product) (*pb.UpdateProductResponse, error)
 	DeleteProduct(ID int) error
-	ReadProductList(IDs []int64) (*pb.GetProductListResponse, error)
+	ReadProductByIds(IDs []int64) (*pb.GetProductsByIdsResponse, error)
+	GetProducts() (*pb.GetProductsResponse, error)
 }
 
 type productUseCase struct {
@@ -36,24 +37,6 @@ func (p *productUseCase) ReadProduct(ID int) (*pb.GetProductResponse, error) {
 			CreatedAt: product.CreatedAt.Format("2006-01-02 15:04:05"),
 			UpdatedAt: product.UpdatedAt.Format("2006-01-02 15:04:05"),
 		}}, nil
-}
-
-func (p *productUseCase) ReadProductList(ID []int64) (*pb.GetProductListResponse, error) {
-	products, err := p.productRepository.GetProductListByIds(ID)
-	if err != nil {
-		return nil, err
-	}
-	var productProto []*pb.Product
-	for _, p := range *products {
-		productProto = append(productProto, &pb.Product{
-			Id:        p.ID,
-			Name:      p.Name,
-			Price:     p.Price,
-			CreatedAt: p.CreatedAt.Format("2006-01-02 15:04:05"),
-			UpdatedAt: p.UpdatedAt.Format("2006-01-02 15:04:05"),
-		})
-	}
-	return &pb.GetProductListResponse{Products: productProto}, nil
 }
 
 func (p *productUseCase) InsertProduct(product *model.Product) (*pb.CreateProductResponse, error) {
@@ -91,4 +74,40 @@ func (p *productUseCase) DeleteProduct(ID int) error {
 		return err
 	}
 	return nil
+}
+
+func (p *productUseCase) GetProducts() (*pb.GetProductsResponse, error) {
+	products, err := p.productRepository.GetProducts()
+	if err != nil {
+		return nil, err
+	}
+	var productProto []*pb.Product
+	for _, p := range *products {
+		productProto = append(productProto, &pb.Product{
+			Id:        p.ID,
+			Name:      p.Name,
+			Price:     p.Price,
+			CreatedAt: p.CreatedAt.Format("2006-01-02 15:04:05"),
+			UpdatedAt: p.UpdatedAt.Format("2006-01-02 15:04:05"),
+		})
+	}
+	return &pb.GetProductsResponse{Products: productProto}, nil
+}
+
+func (p *productUseCase) ReadProductByIds(ID []int64) (*pb.GetProductsByIdsResponse, error) {
+	products, err := p.productRepository.GetProductListByIds(ID)
+	if err != nil {
+		return nil, err
+	}
+	var productProto []*pb.Product
+	for _, p := range *products {
+		productProto = append(productProto, &pb.Product{
+			Id:        p.ID,
+			Name:      p.Name,
+			Price:     p.Price,
+			CreatedAt: p.CreatedAt.Format("2006-01-02 15:04:05"),
+			UpdatedAt: p.UpdatedAt.Format("2006-01-02 15:04:05"),
+		})
+	}
+	return &pb.GetProductsByIdsResponse{Products: productProto}, nil
 }

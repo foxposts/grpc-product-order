@@ -33,32 +33,6 @@ func (p *productPersistence) GetProductById(ID int) (*model.Product, error) {
 	return &product, nil
 }
 
-func (p *productPersistence) GetProductListByIds(IDs []int64) (*[]model.Product, error) {
-	stringIDs := make([]string, len(IDs))
-	for index := range IDs {
-		stringIDs[index] = strconv.FormatInt(IDs[index], 10)
-	}
-	query := fmt.Sprintf("SELECT * FROM products WHERE id IN (%s)", strings.Join(stringIDs[:], ","))
-	rows, err := p.mysqlClient.Query(query)
-	if err != nil {
-		return nil, status.Error(codes.Internal, err.Error())
-	}
-
-	var products []model.Product
-	for rows.Next() {
-		var product model.Product
-		err = rows.Scan(&product.ID, &product.Name, &product.Price, &product.CreatedAt, &product.UpdatedAt)
-		if err != nil {
-			return nil, status.Error(codes.Internal, "unexpected while scanning query")
-		}
-		products = append(products, product)
-	}
-	if len(products) == 0 {
-		return nil, status.Error(codes.NotFound, "products not found")
-	}
-	return &products, nil
-}
-
 func (p *productPersistence) InsertProduct(product *model.Product) (int64, error) {
 	tx, err := p.mysqlClient.Begin()
 	query := `INSERT into products (name, price, created_at, updated_at) VALUES (?, ?, ?, ?)`
@@ -95,4 +69,51 @@ func (p *productPersistence) DeleteProduct(ID int) error {
 		return status.Error(codes.Internal, err.Error())
 	}
 	return nil
+}
+
+func (p *productPersistence) GetProducts() (*[]model.Product, error) {
+	rows, err := p.mysqlClient.Query(`SELECT * FROM products`)
+	if err != nil {
+		return nil, status.Error(codes.Internal, err.Error())
+	}
+
+	var products []model.Product
+	for rows.Next() {
+		var product model.Product
+		err = rows.Scan(&product.ID, &product.Name, &product.Price, &product.CreatedAt, &product.UpdatedAt)
+		if err != nil {
+			return nil, status.Error(codes.Internal, "unexpected while scanning query")
+		}
+		products = append(products, product)
+	}
+	if len(products) == 0 {
+		return nil, status.Error(codes.NotFound, "products not found")
+	}
+	return &products, nil
+}
+
+func (p *productPersistence) GetProductListByIds(IDs []int64) (*[]model.Product, error) {
+	stringIDs := make([]string, len(IDs))
+	for index := range IDs {
+		stringIDs[index] = strconv.FormatInt(IDs[index], 10)
+	}
+	query := fmt.Sprintf("SELECT * FROM products WHERE id IN (%s)", strings.Join(stringIDs[:], ","))
+	rows, err := p.mysqlClient.Query(query)
+	if err != nil {
+		return nil, status.Error(codes.Internal, err.Error())
+	}
+
+	var products []model.Product
+	for rows.Next() {
+		var product model.Product
+		err = rows.Scan(&product.ID, &product.Name, &product.Price, &product.CreatedAt, &product.UpdatedAt)
+		if err != nil {
+			return nil, status.Error(codes.Internal, "unexpected while scanning query")
+		}
+		products = append(products, product)
+	}
+	if len(products) == 0 {
+		return nil, status.Error(codes.NotFound, "products not found")
+	}
+	return &products, nil
 }

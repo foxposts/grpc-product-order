@@ -51,7 +51,7 @@ func (p *orderUseCase) GetOrder(ID int) (*pb.GetOrderResponse, error) {
 		log.Fatalln("failed to connect product server")
 	}
 	defer conn.Close()
-	products, err := pbProduct.NewProductServiceClient(conn).GetProductList(context.Background(), &pbProduct.GetProductListRequest{Ids: productIDs})
+	products, err := pbProduct.NewProductServiceClient(conn).GetProductsByIds(context.Background(), &pbProduct.GetProductsByIdsRequest{Ids: productIDs})
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
 	}
